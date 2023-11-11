@@ -9,7 +9,9 @@ import numpy as np
 from torchvision.transforms.functional import to_pil_image
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
-
+import folder_paths
+import os
+model_path = os.path.join(folder_paths.models_dir, "CLIPSeg")
 
 import cv2
 
@@ -118,8 +120,10 @@ class CLIPSeg:
 
         device = torch.device("cuda" if torch.cuda.is_available() and use_cuda else "cpu")
         
-        processor = CLIPSegProcessor.from_pretrained("CIDAS/clipseg-rd64-refined")
-        model = CLIPSegForImageSegmentation.from_pretrained("CIDAS/clipseg-rd64-refined").to(device)
+        #processor = CLIPSegProcessor.from_pretrained("CIDAS/clipseg-rd64-refined")
+        #model = CLIPSegForImageSegmentation.from_pretrained("CIDAS/clipseg-rd64-refined").to(device)
+        processor = CLIPSegProcessor.from_pretrained(model_path, local_files_only = True)
+        model = CLIPSegForImageSegmentation.from_pretrained(model_path, local_files_only = True).to(device)
         
         
         range_limit = 1 if not every_batch else image.shape[0]
